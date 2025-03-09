@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Test coverage
+coverage/
+
+# Environment files
+.env*
+
+# Cache directories
+.cache/
+
+# Log files
+*.log
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Other unnecessary files
+.DS_Store
+thumb.db
