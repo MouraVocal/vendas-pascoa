@@ -3,6 +3,7 @@ import { Header } from './Header';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDataContext } from '../../contexts/DataContext';
+import { useThemeContext } from '../../contexts/ThemeContext';
 import { useState, useEffect } from 'react';
 
 type LayoutProps = {
@@ -11,6 +12,7 @@ type LayoutProps = {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { siteSettings } = useDataContext();
+  const { isDarkMode } = useThemeContext();
   const [showBubble, setShowBubble] = useState(true);
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
         minHeight: '100vh',
         position: 'relative',
+        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'transparent',
         '&::before': {
           content: '""',
           position: 'fixed',
@@ -52,7 +55,7 @@ export const Layout = ({ children }: LayoutProps) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.15,
+          opacity: isDarkMode ? 0.15 : 0.06,
           zIndex: -1,
         },
       }}

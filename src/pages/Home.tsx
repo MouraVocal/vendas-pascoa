@@ -43,10 +43,6 @@ export const Home = () => {
     <Layout>
       <Box
         sx={{
-          backgroundImage: 'url(/vendas-pascoa/hero.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
           py: { xs: 8, md: 12 },
           mb: 4,
           position: 'relative',
@@ -57,7 +53,6 @@ export const Home = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             zIndex: 1,
           },
         }}

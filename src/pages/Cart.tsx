@@ -28,7 +28,7 @@ export const Cart = () => {
               textAlign: 'center',
             }}
           >
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{ mb: 4, color: 'text.primary' }}>
               Seu carrinho está vazio
             </Typography>
             <Button variant="contained" color="primary" href="/" sx={{ mt: 2 }}>
@@ -43,7 +43,7 @@ export const Cart = () => {
   return (
     <Layout>
       <Container maxWidth="lg">
-        <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+        <Typography variant="h4" gutterBottom sx={{ mb: 4, color: 'text.primary' }}>
           Carrinho de Compras
         </Typography>
 
