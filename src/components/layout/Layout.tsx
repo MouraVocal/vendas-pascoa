@@ -43,35 +43,43 @@ export const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
         minHeight: '100vh',
         position: 'relative',
-        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'transparent',
-        '&::before': {
-          content: '""',
-          position: 'fixed',
+        backgroundImage: 'url(/vendas-pascoa/background-2.png)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <Box
+        sx={{
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: 'url(/vendas-pascoa/background-2.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: isDarkMode ? 0.15 : 0.06,
-          zIndex: -1,
-        },
-      }}
-    >
-      <Header />
+          backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.94)',
+          zIndex: 0,
+        }}
+      />
       <Box
-        component="main"
         sx={{
-          flexGrow: 1,
-          py: 3,
-          px: { xs: 2, sm: 3 },
           position: 'relative',
           zIndex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
         }}
       >
-        {children}
+        <Header />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            py: 3,
+            px: { xs: 2, sm: 3 },
+          }}
+        >
+          {children}
+        </Box>
       </Box>
       <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 2 }}>
         {showBubble && (
