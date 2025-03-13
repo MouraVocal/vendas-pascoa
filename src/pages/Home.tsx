@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import { HighlightedProductCard } from '../components/HighlightedProductCard';
 import { Layout } from '../components/layout/Layout';
-import { ProductCard } from '../components/ProductCard';
 import { useDataContext } from '../contexts/DataContext';
 
 export const Home = () => {
@@ -110,6 +110,9 @@ export const Home = () => {
               '& .MuiCarousel-indicators': {
                 mt: 2,
               },
+              '& .MuiPaper-root': {
+                height: 'auto',
+              },
             }}
             autoPlay
             interval={5000}
@@ -118,7 +121,7 @@ export const Home = () => {
             navButtonsAlwaysVisible
           >
             {highlightedProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <HighlightedProductCard key={product.id} product={product} />
             ))}
           </Carousel>
         </Box>

@@ -55,7 +55,7 @@ export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
           flexDirection: 'column',
           transition: 'all 0.3s ease-in-out',
           borderRadius: 3,
-          overflow: 'hidden',
+          overflow: 'visible',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           mx: 'auto',
           maxWidth,
