@@ -98,7 +98,11 @@ export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
               mb: 2,
             }}
           >
-            R$ {product.price.toFixed(2)}
+            R${' '}
+            {product.price.toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </Typography>
           <Button
             variant="contained"

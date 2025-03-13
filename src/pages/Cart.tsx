@@ -80,7 +80,11 @@ export const Cart = () => {
                     {product.description}
                   </Typography>
                   <Typography variant="h6" color="primary">
-                    R$ {product.price.toFixed(2)}
+                    R${' '}
+                    {product.price.toLocaleString('pt-BR', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </Typography>
                 </CardContent>
                 <Box
@@ -133,7 +137,11 @@ export const Cart = () => {
                 >
                   <Typography variant="body1">Total:</Typography>
                   <Typography variant="h6" color="primary">
-                    R$ {total.toFixed(2)}
+                    R${' '}
+                    {total.toLocaleString('pt-BR', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
                   </Typography>
                 </Box>
                 <Button variant="contained" color="primary" fullWidth size="large" sx={{ mt: 2 }}>
