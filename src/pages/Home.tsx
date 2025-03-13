@@ -1,11 +1,13 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import { useNavigate } from 'react-router-dom';
 import { HighlightedProductCard } from '../components/HighlightedProductCard';
 import { Layout } from '../components/layout/Layout';
 import { useDataContext } from '../contexts/DataContext';
 
 export const Home = () => {
   const { products, loading, error, siteSettings } = useDataContext();
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -82,7 +84,7 @@ export const Home = () => {
               variant="contained"
               color="primary"
               size="large"
-              href="/vendas-pascoa/produtos"
+              onClick={() => navigate('/produtos')}
               sx={{
                 px: 6,
                 py: 2,
@@ -137,7 +139,7 @@ export const Home = () => {
             variant="outlined"
             color="primary"
             size="large"
-            href="/vendas-pascoa/produtos"
+            onClick={() => navigate('/produtos')}
             sx={{
               px: 4,
               py: 1.5,

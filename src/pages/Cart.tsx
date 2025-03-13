@@ -11,8 +11,10 @@ import {
 import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { Layout } from '../components/layout/Layout';
 import { useCartContext } from '../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 export const Cart = () => {
+  const navigate = useNavigate();
   const { items, removeItem, updateQuantity, total } = useCartContext();
 
   if (items.length === 0) {
@@ -152,7 +154,7 @@ export const Cart = () => {
                   color="primary"
                   fullWidth
                   size="large"
-                  href="/"
+                  onClick={() => navigate('/')}
                   sx={{ mt: 2 }}
                 >
                   Continuar Comprando
