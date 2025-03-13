@@ -55,7 +55,8 @@ export const Cart = () => {
                 sx={{
                   mb: 2,
                   display: 'flex',
-                  alignItems: 'center',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  alignItems: { xs: 'stretch', sm: 'center' },
                   p: 2,
                 }}
               >
@@ -64,13 +65,14 @@ export const Cart = () => {
                   src={product.image_url}
                   alt={product.name}
                   sx={{
-                    width: 100,
-                    height: 100,
+                    width: { xs: '100%', sm: 100 },
+                    height: { xs: 200, sm: 100 },
                     objectFit: 'contain',
-                    mr: 2,
+                    mb: { xs: 2, sm: 0 },
+                    mr: { xs: 0, sm: 2 },
                   }}
                 />
-                <CardContent sx={{ flex: 1 }}>
+                <CardContent sx={{ flex: 1, px: { xs: 0, sm: 2 } }}>
                   <Typography variant="h6" gutterBottom>
                     {product.name}
                   </Typography>
@@ -81,7 +83,16 @@ export const Cart = () => {
                     R$ {product.price.toFixed(2)}
                   </Typography>
                 </CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: { xs: 'center', sm: 'flex-end' },
+                    gap: 1,
+                    mt: { xs: 2, sm: 0 },
+                    width: { xs: '100%', sm: 'auto' },
+                  }}
+                >
                   <IconButton
                     size="small"
                     onClick={() => updateQuantity(product.id ?? '', quantity - 1)}
