@@ -1,6 +1,15 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, PaletteColor } from '@mui/material/styles';
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    easter: PaletteColor;
+  }
+  interface PaletteOptions {
+    easter?: PaletteColor;
+  }
+}
 
 type ThemeContextType = {
   isDarkMode: boolean;
@@ -32,7 +41,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   }, [isDarkMode]);
 
   const toggleTheme = () => {
-    setIsDarkMode(prev => !prev);
+    setIsDarkMode((prev: boolean) => !prev);
   };
 
   const theme = createTheme({

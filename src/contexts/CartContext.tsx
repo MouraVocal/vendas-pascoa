@@ -53,7 +53,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   };
 
   const removeItem = (productId: number) => {
-    setItems(currentItems => currentItems.filter(item => item.product.id !== productId));
+    setItems(currentItems => currentItems.filter(item => Number(item.product.id) !== productId));
   };
 
   const updateQuantity = (productId: number, quantity: number) => {
@@ -62,7 +62,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       return;
     }
     setItems(currentItems =>
-      currentItems.map(item => (item.product.id === productId ? { ...item, quantity } : item))
+      currentItems.map(item =>
+        Number(item.product.id) === productId ? { ...item, quantity } : item
+      )
     );
   };
 
