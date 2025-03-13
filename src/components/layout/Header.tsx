@@ -16,12 +16,14 @@ import { ShoppingCart, Menu, Brightness4, Brightness7 } from '@mui/icons-materia
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useThemeContext } from '../../contexts/ThemeContext';
+import { useCartContext } from '../../contexts/CartContext';
 
 export const Header = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useThemeContext();
+  const { itemCount } = useCartContext();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -97,7 +99,7 @@ export const Header = () => {
           to="/carrinho"
           sx={{ ml: 1 }}
         >
-          <Badge badgeContent={0} color="secondary">
+          <Badge badgeContent={itemCount} color="secondary">
             <ShoppingCart />
           </Badge>
         </IconButton>

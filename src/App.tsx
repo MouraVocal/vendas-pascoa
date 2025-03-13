@@ -1,7 +1,8 @@
-import { CssBaseline } from '@mui/material';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { CartProvider } from './contexts/CartContext';
 import { DataProvider } from './contexts/DataContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
 
@@ -9,13 +10,15 @@ function App() {
   return (
     <ThemeProvider>
       <DataProvider>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/produtos" element={<Products />} />
-          </Routes>
-        </BrowserRouter>
+        <CartProvider>
+          <BrowserRouter basename={'/vendas-pascoa'}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/produtos" element={<Products />} />
+              <Route path="/carrinho" element={<Cart />} />
+            </Routes>
+          </BrowserRouter>
+        </CartProvider>
       </DataProvider>
     </ThemeProvider>
   );

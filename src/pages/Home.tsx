@@ -11,9 +11,11 @@ import {
 } from '@mui/material';
 import { Layout } from '../components/layout/Layout';
 import { useDataContext } from '../contexts/DataContext';
+import { useCartContext } from '../contexts/CartContext';
 
 export const Home = () => {
   const { products, loading, error, siteSettings } = useDataContext();
+  const { addItem } = useCartContext();
 
   if (loading) {
     return (
@@ -132,6 +134,7 @@ export const Home = () => {
                     variant="contained"
                     color="primary"
                     fullWidth
+                    onClick={() => addItem(product)}
                     sx={{
                       py: 1.5,
                       textTransform: 'none',
