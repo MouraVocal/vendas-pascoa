@@ -40,6 +40,21 @@ export const Layout = ({ children }: LayoutProps) => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: '100vh',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'url(/vendas-pascoa/background-2.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.15,
+          zIndex: -1,
+        },
       }}
     >
       <Header />
@@ -49,11 +64,13 @@ export const Layout = ({ children }: LayoutProps) => {
           flexGrow: 1,
           py: 3,
           px: { xs: 2, sm: 3 },
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {children}
       </Box>
-      <Box sx={{ position: 'fixed', bottom: 24, right: 24 }}>
+      <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 2 }}>
         {showBubble && (
           <Paper
             elevation={3}
