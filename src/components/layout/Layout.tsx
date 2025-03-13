@@ -56,7 +56,7 @@ export const Layout = ({ children }: LayoutProps) => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'rgba(255, 255, 255, 0.6)',
+          backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'rgba(255, 255, 255, 0.8)',
         }}
       />
       <Box
