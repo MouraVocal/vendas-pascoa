@@ -48,22 +48,19 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
     palette: {
       mode: isDarkMode ? 'dark' : 'light',
       primary: {
-        main: isDarkMode ? '#8B4513' : '#3E2723',
-        light: isDarkMode ? '#A0522D' : '#6D4C41',
-        dark: isDarkMode ? '#654321' : '#1B0000',
-        contrastText: '#FFFFFF',
+        main: isDarkMode ? '#B87333' : '#3E2723',
+        light: isDarkMode ? '#C68E4F' : '#6D4C41',
+        dark: isDarkMode ? '#8B4513' : '#1B0000',
       },
       secondary: {
         main: isDarkMode ? '#D2691E' : '#795548',
         light: isDarkMode ? '#CD853F' : '#A1887F',
         dark: isDarkMode ? '#8B4513' : '#4B2C20',
-        contrastText: '#FFFFFF',
       },
-      easter: {
-        main: isDarkMode ? '#8B7355' : '#BCAAA4',
-        light: isDarkMode ? '#A39480' : '#D7CCC8',
-        dark: isDarkMode ? '#6F5B3E' : '#8C7B75',
-        contrastText: isDarkMode ? '#FFFFFF' : '#000000',
+      text: {
+        primary: isDarkMode ? '#E6D5C7' : '#000000',
+        secondary: isDarkMode ? '#D4BFB0' : '#424242',
+        disabled: isDarkMode ? '#A39480' : '#757575',
       },
       background: {
         default: isDarkMode ? '#121212' : '#EFEBE9',
