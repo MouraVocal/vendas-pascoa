@@ -70,7 +70,7 @@ export const Header = () => {
             fontWeight: 700,
           }}
         >
-          Loja de Páscoa
+          Lojinha de Páscoa
         </Typography>
 
         {!isMobile && (
