@@ -2,15 +2,19 @@ import { Box, Fab } from '@mui/material';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { useDataContext } from '../../contexts/DataContext';
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 export const Layout = ({ children }: LayoutProps) => {
+  const { siteSettings } = useDataContext();
+
   const handleWhatsAppClick = () => {
+    const whatsappNumber = siteSettings?.whatsapp_number || '5511957738663';
     window.open(
-      'https://wa.me/5511957738663?text=Olá! Gostaria de saber mais sobre os produtos de Páscoa.',
+      `https://wa.me/${whatsappNumber}?text=Olá! Gostaria de saber mais sobre os produtos de Páscoa.`,
       '_blank'
     );
   };

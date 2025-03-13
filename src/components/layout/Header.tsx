@@ -30,8 +30,6 @@ export const Header = () => {
   const menuItems = [
     { text: 'Início', path: '/' },
     { text: 'Produtos', path: '/produtos' },
-    { text: 'Sobre', path: '/sobre' },
-    { text: 'Contato', path: '/contato' },
   ];
 
   const drawer = (

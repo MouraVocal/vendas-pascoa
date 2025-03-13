@@ -7,33 +7,35 @@ import {
   CardContent,
   CardMedia,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import { Layout } from '../components/layout/Layout';
+import { useDataContext } from '../contexts/DataContext';
 
 export const Home = () => {
-  const featuredProducts = [
-    {
-      id: 1,
-      name: 'Ovo de Páscoa Premium',
-      description: 'Chocolate ao leite com recheio especial',
-      price: 89.9,
-      image: '/images/premium-egg.jpg',
-    },
-    {
-      id: 2,
-      name: 'Coelho de Chocolate',
-      description: 'Coelho artesanal de chocolate belga',
-      price: 45.9,
-      image: '/images/chocolate-bunny.jpg',
-    },
-    {
-      id: 3,
-      name: 'Cesta de Páscoa',
-      description: 'Cesta completa com variedades pascais',
-      price: 159.9,
-      image: '/images/easter-basket.jpg',
-    },
-  ];
+  const { products, loading, error, siteSettings } = useDataContext();
+
+  if (loading) {
+    return (
+      <Layout>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+          <CircularProgress />
+        </Box>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+          <Typography color="error">{error}</Typography>
+        </Box>
+      </Layout>
+    );
+  }
+
+  const highlightedProducts = products.filter(product => product.is_highlighted);
 
   return (
     <Layout>
@@ -55,7 +57,7 @@ export const Home = () => {
               mb: 3,
             }}
           >
-            Celebre a Páscoa com Alegria
+            {siteSettings?.title || 'Celebre a Páscoa com Alegria'}
           </Typography>
           <Typography
             variant="h2"
@@ -66,7 +68,8 @@ export const Home = () => {
               mb: 4,
             }}
           >
-            Descubra nossa seleção especial de produtos para tornar sua Páscoa ainda mais doce
+            {siteSettings?.subtitle ||
+              'Descubra nossa seleção especial de produtos para tornar sua Páscoa ainda mais doce'}
           </Typography>
         </Container>
       </Box>
@@ -85,7 +88,7 @@ export const Home = () => {
         </Typography>
 
         <Grid container spacing={3}>
-          {featuredProducts.map(product => (
+          {highlightedProducts.map(product => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card
                 sx={{
@@ -101,7 +104,7 @@ export const Home = () => {
                 <CardMedia
                   component="img"
                   height="200"
-                  image={product.image}
+                  image={product.image_url}
                   alt={product.name}
                   sx={{ objectFit: 'cover' }}
                 />
