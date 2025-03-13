@@ -2,13 +2,13 @@ import {
   Box,
   Container,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardMedia,
   Button,
   CircularProgress,
 } from '@mui/material';
+import Carousel from 'react-material-ui-carousel';
 import { Layout } from '../components/layout/Layout';
 import { useDataContext } from '../contexts/DataContext';
 import { useCartContext } from '../contexts/CartContext';
@@ -106,17 +106,30 @@ export const Home = () => {
                 },
               }}
             >
-              Explorar Produtos
+              Ver Todos Produtos
             </Button>
           </Box>
         </Container>
       </Box>
 
       <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          {highlightedProducts.map(product => (
-            <Grid item xs={12} sm={6} md={4} key={product.id}>
+        <Box sx={{ mb: 6 }}>
+          <Carousel
+            sx={{
+              width: '100%',
+              '& .MuiCarousel-indicators': {
+                mt: 2,
+              },
+            }}
+            autoPlay
+            interval={5000}
+            animation="slide"
+            indicators
+            navButtonsAlwaysVisible
+          >
+            {highlightedProducts.map(product => (
               <Card
+                key={product.id}
                 sx={{
                   height: '100%',
                   display: 'flex',
@@ -125,6 +138,8 @@ export const Home = () => {
                   borderRadius: 3,
                   overflow: 'hidden',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                  mx: 'auto',
+                  maxWidth: 400,
                   '&:hover': {
                     transform: 'translateY(-8px)',
                     boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
@@ -181,9 +196,9 @@ export const Home = () => {
                   </Button>
                 </CardContent>
               </Card>
-            </Grid>
-          ))}
-        </Grid>
+            ))}
+          </Carousel>
+        </Box>
 
         <Box
           sx={{
