@@ -82,14 +82,24 @@ export const Cart = () => {
                   </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <IconButton size="small" onClick={() => updateQuantity(product.id, quantity - 1)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => updateQuantity(product.id ?? '', quantity - 1)}
+                  >
                     <RemoveIcon />
                   </IconButton>
                   <Typography sx={{ minWidth: '40px', textAlign: 'center' }}>{quantity}</Typography>
-                  <IconButton size="small" onClick={() => updateQuantity(product.id, quantity + 1)}>
+                  <IconButton
+                    size="small"
+                    onClick={() => updateQuantity(product.id ?? '', quantity + 1)}
+                  >
                     <AddIcon />
                   </IconButton>
-                  <IconButton color="error" onClick={() => removeItem(product.id)} sx={{ ml: 1 }}>
+                  <IconButton
+                    color="error"
+                    onClick={() => removeItem(product.id ?? '')}
+                    sx={{ ml: 1 }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </Box>

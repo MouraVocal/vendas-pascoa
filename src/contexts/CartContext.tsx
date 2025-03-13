@@ -9,8 +9,8 @@ type CartItem = {
 type CartContextType = {
   items: CartItem[];
   addItem: (product: Product) => void;
-  removeItem: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   total: number;
   itemCount: number;
@@ -52,11 +52,11 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     });
   };
 
-  const removeItem = (productId: number) => {
+  const removeItem = (productId: string) => {
     setItems(currentItems => currentItems.filter(item => item.product.id !== productId));
   };
 
-  const updateQuantity = (productId: number, quantity: number) => {
+  const updateQuantity = (productId: string, quantity: number) => {
     if (quantity < 1) {
       removeItem(productId);
       return;
