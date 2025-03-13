@@ -160,7 +160,7 @@ export const Home = () => {
             variant="outlined"
             color="primary"
             size="large"
-            href="/produtos"
+            href="/vendas-pascoa/produtos"
             sx={{
               px: 4,
               py: 1.5,
