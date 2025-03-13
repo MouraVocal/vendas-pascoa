@@ -1,11 +1,11 @@
-import { ThemeProvider, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { theme } from './theme';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { Home } from './pages/Home';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
       <CssBaseline />
       <BrowserRouter>
         <Routes>
