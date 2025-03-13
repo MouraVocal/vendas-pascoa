@@ -33,7 +33,12 @@ export const Cart = () => {
             <Typography variant="h5" gutterBottom sx={{ mb: 4, color: 'text.primary' }}>
               Seu carrinho está vazio
             </Typography>
-            <Button variant="contained" color="primary" href="/" sx={{ mt: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate('/')}
+              sx={{ mt: 2 }}
+            >
               Continuar Comprando
             </Button>
           </Box>
