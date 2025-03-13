@@ -114,7 +114,23 @@ export const Header = () => {
           }}
           sx={{
             display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: 240,
+              bgcolor: 'background.paper',
+              borderRight: 1,
+              borderColor: 'divider',
+              '& .MuiListItem-root': {
+                color: 'text.primary',
+                '&:hover': {
+                  bgcolor: 'action.hover',
+                },
+              },
+              '& .MuiListItemText-primary': {
+                color: 'text.primary',
+                fontWeight: 500,
+              },
+            },
           }}
         >
           {drawer}
