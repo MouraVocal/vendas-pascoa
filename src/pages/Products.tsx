@@ -12,8 +12,8 @@ import {
 import { Layout } from '../components/layout/Layout';
 import { useDataContext } from '../contexts/DataContext';
 
-export const Home = () => {
-  const { products, loading, error, siteSettings } = useDataContext();
+export const Products = () => {
+  const { products, loading, error } = useDataContext();
 
   if (loading) {
     return (
@@ -35,48 +35,24 @@ export const Home = () => {
     );
   }
 
-  const highlightedProducts = products.filter(product => product.is_highlighted);
-
   return (
     <Layout>
-      <Box
-        sx={{
-          bgcolor: 'easter.light',
-          py: { xs: 4, md: 8 },
-          mb: 4,
-        }}
-      >
-        <Container maxWidth="lg">
-          <Typography
-            variant="h1"
-            align="center"
-            color="primary"
-            gutterBottom
-            sx={{
-              fontSize: { xs: '2rem', md: '3rem' },
-              mb: 3,
-            }}
-          >
-            {siteSettings?.title || 'Celebre a Páscoa com Alegria'}
-          </Typography>
-          <Typography
-            variant="h2"
-            align="center"
-            color="text.secondary"
-            sx={{
-              fontSize: { xs: '1.25rem', md: '1.5rem' },
-              mb: 4,
-            }}
-          >
-            {siteSettings?.subtitle ||
-              'Descubra nossa seleção especial de produtos para tornar sua Páscoa ainda mais doce'}
-          </Typography>
-        </Container>
-      </Box>
-
       <Container maxWidth="lg">
+        <Typography
+          variant="h1"
+          align="center"
+          color="primary"
+          gutterBottom
+          sx={{
+            fontSize: { xs: '2rem', md: '3rem' },
+            mb: 4,
+          }}
+        >
+          Nossos Produtos
+        </Typography>
+
         <Grid container spacing={3}>
-          {highlightedProducts.map(product => (
+          {products.map(product => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
               <Card
                 sx={{
@@ -145,27 +121,6 @@ export const Home = () => {
             </Grid>
           ))}
         </Grid>
-
-        <Box
-          sx={{
-            mt: 6,
-            mb: 4,
-            textAlign: 'center',
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="primary"
-            size="large"
-            href="/produtos"
-            sx={{
-              px: 4,
-              py: 1.5,
-            }}
-          >
-            Ver Todos os Produtos
-          </Button>
-        </Box>
       </Container>
     </Layout>
   );

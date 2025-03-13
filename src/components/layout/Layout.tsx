@@ -1,6 +1,7 @@
-import { Box, Fab, Paper } from '@mui/material';
+import { Box, Fab, Paper, IconButton } from '@mui/material';
 import { Header } from './Header';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDataContext } from '../../contexts/DataContext';
 import { useState, useEffect } from 'react';
 
@@ -13,19 +14,24 @@ export const Layout = ({ children }: LayoutProps) => {
   const [showBubble, setShowBubble] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const hasVisited = localStorage.getItem('hasVisitedBefore');
+    if (hasVisited) {
       setShowBubble(false);
-    }, 8000);
-
-    return () => clearTimeout(timer);
+    }
   }, []);
 
+  const handleCloseBubble = () => {
+    setShowBubble(false);
+    localStorage.setItem('hasVisitedBefore', 'true');
+  };
+
   const handleWhatsAppClick = () => {
-    const whatsappNumber = siteSettings?.whatsapp_number || '5511957738663';
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=Olá! Gostaria de saber mais sobre os produtos de Páscoa.`,
-      '_blank'
-    );
+    const phoneNumber = siteSettings?.whatsapp_number || '';
+    if (!phoneNumber) return;
+
+    const message = encodeURIComponent('Olá! Gostaria de saber mais sobre os produtos de Páscoa!');
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
@@ -85,6 +91,21 @@ export const Layout = ({ children }: LayoutProps) => {
               },
             }}
           >
+            <IconButton
+              size="small"
+              onClick={handleCloseBubble}
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                color: '#075E54',
+                '&:hover': {
+                  bgcolor: 'rgba(7, 94, 84, 0.1)',
+                },
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
             💬 Oii! Posso te ajudar a escolher os melhores produtos de Páscoa? Vamos conversar! 🐰✨
           </Paper>
         )}
