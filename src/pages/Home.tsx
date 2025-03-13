@@ -75,18 +75,6 @@ export const Home = () => {
       </Box>
 
       <Container maxWidth="lg">
-        <Typography
-          variant="h2"
-          color="primary"
-          gutterBottom
-          sx={{
-            fontSize: { xs: '1.75rem', md: '2.25rem' },
-            mb: 4,
-          }}
-        >
-          Produtos em Destaque
-        </Typography>
-
         <Grid container spacing={3}>
           {highlightedProducts.map(product => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
