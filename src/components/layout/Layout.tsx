@@ -3,8 +3,8 @@ import { Header } from './Header';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDataContext } from '../../contexts/DataContext';
-import { useThemeContext } from '../../contexts/ThemeContext';
 import { useState, useEffect } from 'react';
+import { useThemeContext } from '../../contexts/ThemeContext';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -12,8 +12,9 @@ type LayoutProps = {
 
 export const Layout = ({ children }: LayoutProps) => {
   const { siteSettings } = useDataContext();
-  const { isDarkMode } = useThemeContext();
   const [showBubble, setShowBubble] = useState(true);
+
+  const { isDarkMode } = useThemeContext();
 
   useEffect(() => {
     const hasVisited = localStorage.getItem('hasVisitedBefore');
@@ -43,42 +44,34 @@ export const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
         minHeight: '100vh',
         position: 'relative',
-        backgroundImage: 'url(/vendas-pascoa/background-2.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
-      <Box
-        sx={{
-          position: 'absolute',
+        '&::before': {
+          content: '""',
+          position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'rgba(255, 255, 255, 0.8)',
-        }}
-      />
+          backgroundImage: 'url(/vendas-pascoa/background-2.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: isDarkMode ? 0.06 : 0.12,
+          zIndex: -1,
+        },
+      }}
+    >
+      <Header />
       <Box
+        component="main"
         sx={{
+          flexGrow: 1,
+          py: 3,
+          px: { xs: 2, sm: 3 },
           position: 'relative',
           zIndex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
         }}
       >
-        <Header />
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            py: 3,
-            px: { xs: 2, sm: 3 },
-          }}
-        >
-          {children}
-        </Box>
+        {children}
       </Box>
       <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 2 }}>
         {showBubble && (

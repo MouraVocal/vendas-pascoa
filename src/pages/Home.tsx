@@ -1,13 +1,11 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
-import { useNavigate } from 'react-router-dom';
-import { HighlightedProductCard } from '../components/HighlightedProductCard';
 import { Layout } from '../components/layout/Layout';
+import { ProductCard } from '../components/ProductCard';
 import { useDataContext } from '../contexts/DataContext';
 
 export const Home = () => {
   const { products, loading, error, siteSettings } = useDataContext();
-  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -84,7 +82,7 @@ export const Home = () => {
               variant="contained"
               color="primary"
               size="large"
-              onClick={() => navigate('/produtos')}
+              href="/vendas-pascoa/produtos"
               sx={{
                 px: 6,
                 py: 2,
@@ -112,9 +110,6 @@ export const Home = () => {
               '& .MuiCarousel-indicators': {
                 mt: 2,
               },
-              '& .MuiPaper-root': {
-                height: 'auto',
-              },
             }}
             autoPlay
             interval={5000}
@@ -123,7 +118,7 @@ export const Home = () => {
             navButtonsAlwaysVisible
           >
             {highlightedProducts.map(product => (
-              <HighlightedProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} />
             ))}
           </Carousel>
         </Box>
@@ -139,7 +134,7 @@ export const Home = () => {
             variant="outlined"
             color="primary"
             size="large"
-            onClick={() => navigate('/produtos')}
+            href="/vendas-pascoa/produtos"
             sx={{
               px: 4,
               py: 1.5,

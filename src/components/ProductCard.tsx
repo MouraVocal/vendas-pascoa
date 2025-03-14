@@ -55,7 +55,7 @@ export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
           flexDirection: 'column',
           transition: 'all 0.3s ease-in-out',
           borderRadius: 3,
-          overflow: 'visible',
+          overflow: 'hidden',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
           mx: 'auto',
           maxWidth,
@@ -98,11 +98,7 @@ export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
               mb: 2,
             }}
           >
-            R${' '}
-            {product.price.toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            R$ {product.price.toFixed(2)}
           </Typography>
           <Button
             variant="contained"

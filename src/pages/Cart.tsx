@@ -11,10 +11,8 @@ import {
 import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { Layout } from '../components/layout/Layout';
 import { useCartContext } from '../contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
 
 export const Cart = () => {
-  const navigate = useNavigate();
   const { items, removeItem, updateQuantity, total } = useCartContext();
 
   if (items.length === 0) {
@@ -33,12 +31,7 @@ export const Cart = () => {
             <Typography variant="h5" gutterBottom sx={{ mb: 4, color: 'text.primary' }}>
               Seu carrinho está vazio
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => navigate('/')}
-              sx={{ mt: 2 }}
-            >
+            <Button variant="contained" color="primary" href="/" sx={{ mt: 2 }}>
               Continuar Comprando
             </Button>
           </Box>
@@ -87,11 +80,7 @@ export const Cart = () => {
                     {product.description}
                   </Typography>
                   <Typography variant="h6" color="primary">
-                    R${' '}
-                    {product.price.toLocaleString('pt-BR', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    R$ {product.price.toFixed(2)}
                   </Typography>
                 </CardContent>
                 <Box
@@ -144,11 +133,7 @@ export const Cart = () => {
                 >
                   <Typography variant="body1">Total:</Typography>
                   <Typography variant="h6" color="primary">
-                    R${' '}
-                    {total.toLocaleString('pt-BR', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    R$ {total.toFixed(2)}
                   </Typography>
                 </Box>
                 <Button variant="contained" color="primary" fullWidth size="large" sx={{ mt: 2 }}>
@@ -159,7 +144,7 @@ export const Cart = () => {
                   color="primary"
                   fullWidth
                   size="large"
-                  onClick={() => navigate('/')}
+                  href="/"
                   sx={{ mt: 2 }}
                 >
                   Continuar Comprando
