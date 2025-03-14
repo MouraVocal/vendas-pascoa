@@ -44,6 +44,7 @@ export const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
         minHeight: '100vh',
         position: 'relative',
+        backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.92)' : 'rgba(255, 255, 255, 0.8)',
         '&::before': {
           content: '""',
           position: 'fixed',
