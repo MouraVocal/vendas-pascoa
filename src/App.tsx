@@ -1,24 +1,46 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { CartProvider } from './contexts/CartContext';
 import { DataProvider } from './contexts/DataContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
+import { RootLayout } from './components/layout/RootLayout';
+import { CartProvider } from './contexts/CartContext';
+import { SignUp } from './pages/SignUp';
 
 const router = createBrowserRouter(
   [
     {
       path: '/',
-      element: <Home />,
+      element: (
+        <RootLayout>
+          <Home />
+        </RootLayout>
+      ),
     },
     {
       path: '/produtos',
-      element: <Products />,
+      element: (
+        <RootLayout>
+          <Products />
+        </RootLayout>
+      ),
     },
     {
       path: '/carrinho',
-      element: <Cart />,
+      element: (
+        <RootLayout>
+          <Cart />
+        </RootLayout>
+      ),
+    },
+    {
+      path: '/signup',
+      element: (
+        <RootLayout>
+          <SignUp />
+        </RootLayout>
+      ),
     },
   ],
   {

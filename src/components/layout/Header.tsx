@@ -11,9 +11,12 @@ import {
   ListItem,
   ListItemText,
   Button,
+  Box,
 } from '@mui/material';
 import { ShoppingCart, Menu, Brightness4, Brightness7 } from '@mui/icons-material';
 import { useState } from 'react';
+import { LoginDialog } from '../auth/LoginDialog';
+import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { useThemeContext } from '../../contexts/ThemeContext';
 import { useCartContext } from '../../contexts/CartContext';
@@ -24,6 +27,8 @@ export const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useThemeContext();
   const { itemCount } = useCartContext();
+  const { user, signOut } = useAuth();
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -83,14 +88,26 @@ export const Header = () => {
           </div>
         )}
 
-        <IconButton
-          onClick={toggleTheme}
-          color="primary"
-          sx={{ ml: 1 }}
-          aria-label="toggle dark mode"
-        >
-          {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            onClick={toggleTheme}
+            color="primary"
+            sx={{ ml: 1 }}
+            aria-label="toggle dark mode"
+          >
+            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+
+          {user ? (
+            <Button color="primary" onClick={signOut} sx={{ ml: 1 }}>
+              Sair
+            </Button>
+          ) : (
+            <Button color="primary" onClick={() => setLoginDialogOpen(true)} sx={{ ml: 1 }}>
+              Entrar
+            </Button>
+          )}
+        </Box>
 
         <IconButton
           color="primary"
@@ -135,6 +152,8 @@ export const Header = () => {
         >
           {drawer}
         </Drawer>
+
+        <LoginDialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)} />
       </Toolbar>
     </AppBar>
   );

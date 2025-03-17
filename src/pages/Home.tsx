@@ -3,9 +3,18 @@ import Carousel from 'react-material-ui-carousel';
 import { Layout } from '../components/layout/Layout';
 import { ProductCard } from '../components/ProductCard';
 import { useDataContext } from '../contexts/DataContext';
+import { supabase } from '../lib/supabase';
 
 export const Home = () => {
   const { products, loading, error, siteSettings } = useDataContext();
+
+  supabase.auth.getUser().then(({ data: { user } }) => {
+    if (user) {
+      console.log('Usuário logado:', user);
+    } else {
+      console.log('Nenhum usuário logado.');
+    }
+  });
 
   if (loading) {
     return (
