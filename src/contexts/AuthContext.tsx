@@ -72,6 +72,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return { error: signUpError, response: null };
     }
 
+    const { data: updateData, error: updateError } = await supabase.rpc('update_user_info', {
+      user_id: data.user?.id,
+      new_username: name,
+      new_phone: Number(phone),
+    });
+
+    if (updateError) {
+      return { error: updateError, response: updateData };
+    }
+
     return { error: null, response: data };
   };
 
