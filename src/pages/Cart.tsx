@@ -7,8 +7,10 @@ import {
   IconButton,
   Grid,
   Button,
-  Snackbar,
-  Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { Layout } from '../components/layout/Layout';
@@ -22,8 +24,11 @@ export const Cart = () => {
   const { items, removeItem, updateQuantity, total, clearCart } = useCartContext();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [orderId, setOrderId] = useState('');
+  const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [orderSummary, setOrderSummary] = useState<{ id: string; items: typeof items }>({
+    id: '',
+    items: [],
+  });
 
   if (items.length === 0) {
     return (
@@ -175,9 +180,12 @@ export const Cart = () => {
                           order: '',
                         }))
                       );
-                      setOrderId(order.id!);
-                      setOpenSnackbar(true);
-                      clearCart();
+                      setOrderSummary({ id: order.id!, items: [...items] });
+                      setOpenSuccessModal(true);
+                      // Clear cart after modal is shown to preserve order summary
+                      setTimeout(() => {
+                        navigate('/meus-pedidos');
+                      }, 10000);
                     } catch (error) {
                       console.error('Error creating order:', error);
                     }
@@ -190,7 +198,9 @@ export const Cart = () => {
                   color="primary"
                   fullWidth
                   size="large"
-                  onClick={() => navigate('/produtos')}
+                  onClick={() => {
+                    navigate('/produtos');
+                  }}
                   sx={{ mt: 2 }}
                 >
                   Continuar Comprando
@@ -201,32 +211,97 @@ export const Cart = () => {
         </Grid>
       </Container>
 
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      <Dialog
+        open={openSuccessModal}
+        onClose={() => setOpenSuccessModal(false)}
+        maxWidth="sm"
+        fullWidth
       >
-        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
-          Pedido {orderId} criado com sucesso! Você pode acompanhar o status do seu pedido na página
-          de{' '}
+        <DialogTitle sx={{ textAlign: 'center', color: 'primary.main', fontWeight: 700 }}>
+          Pedido Realizado com Sucesso! 🎉
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
+            Resumo do Pedido #{orderSummary.id}
+          </Typography>
+          {orderSummary.items.map(({ product, quantity }) => (
+            <Box
+              key={product.id}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mb: 2,
+                p: 2,
+                bgcolor: 'background.paper',
+                borderRadius: 1,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box
+                  component="img"
+                  src={product.image_url}
+                  alt={product.name}
+                  sx={{ width: 50, height: 50, objectFit: 'contain' }}
+                />
+                <Box>
+                  <Typography variant="subtitle1">{product.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Quantidade: {quantity}
+                  </Typography>
+                </Box>
+              </Box>
+              <Typography variant="subtitle1" color="primary.main">
+                R$ {(product.price * quantity).toFixed(2)}
+              </Typography>
+            </Box>
+          ))}
           <Box
-            component="span"
             sx={{
-              color: 'primary.main',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-            }}
-            onClick={() => {
-              navigate('/meus-pedidos');
-              setOpenSnackbar(false);
+              mt: 3,
+              p: 2,
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
+              borderRadius: 1,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
-            Meus Pedidos
+            <Typography variant="h6">Total:</Typography>
+            <Typography variant="h6">R$ {total.toFixed(2)}</Typography>
           </Box>
-          .
-        </Alert>
-      </Snackbar>
+        </DialogContent>
+        <DialogActions sx={{ p: 3, flexDirection: 'column', gap: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={() => {
+              clearCart();
+              navigate('/meus-pedidos');
+              setOpenSuccessModal(false);
+            }}
+            sx={{ py: 1.5 }}
+          >
+            Ver Meus Pedidos
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            onClick={() => {
+              clearCart();
+              navigate('/produtos');
+              setOpenSuccessModal(false);
+            }}
+            sx={{ py: 1.5 }}
+          >
+            Continuar Comprando
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Layout>
   );
 };
