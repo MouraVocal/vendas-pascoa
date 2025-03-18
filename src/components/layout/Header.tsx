@@ -12,8 +12,16 @@ import {
   ListItemText,
   Button,
   Box,
+  Menu,
+  MenuItem,
 } from '@mui/material';
-import { ShoppingCart, Menu, Brightness4, Brightness7 } from '@mui/icons-material';
+import {
+  ShoppingCart,
+  Menu as MenuIcon,
+  Brightness4,
+  Brightness7,
+  Person,
+} from '@mui/icons-material';
 import { useState } from 'react';
 import { LoginDialog } from '../auth/LoginDialog';
 import { useAuth } from '../../contexts/AuthContext';
@@ -29,6 +37,20 @@ export const Header = () => {
   const { itemCount } = useCartContext();
   const { user, signOut } = useAuth();
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSignOut = () => {
+    handleMenuClose();
+    signOut();
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -60,7 +82,7 @@ export const Header = () => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, color: 'primary.main' }}
           >
-            <Menu />
+            <MenuIcon />
           </IconButton>
         )}
 
@@ -99,9 +121,34 @@ export const Header = () => {
           </IconButton>
 
           {user ? (
-            <Button color="primary" onClick={signOut} sx={{ ml: 1 }}>
-              Sair
-            </Button>
+            <>
+              <Button
+                color="primary"
+                onClick={handleMenuClick}
+                sx={{ ml: 1 }}
+                startIcon={<Person />}
+              >
+                Olá, {user.user_metadata?.name || 'Usuário'}
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                <MenuItem component={Link} to="/meus-pedidos" onClick={handleMenuClose}>
+                  Ver meus pedidos
+                </MenuItem>
+                <MenuItem onClick={handleSignOut}>Sair</MenuItem>
+              </Menu>
+            </>
           ) : (
             <Button color="primary" onClick={() => setLoginDialogOpen(true)} sx={{ ml: 1 }}>
               Entrar
