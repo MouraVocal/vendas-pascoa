@@ -1,7 +1,7 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
+import { HighlightedProductCard } from '../components/HighlightedProductCard';
 import { Layout } from '../components/layout/Layout';
-import { ProductCard } from '../components/ProductCard';
 import { useDataContext } from '../contexts/DataContext';
 import { supabase } from '../lib/supabase';
 
@@ -127,7 +127,7 @@ export const Home = () => {
             navButtonsAlwaysVisible
           >
             {highlightedProducts.map(product => (
-              <ProductCard key={product.id} product={product} />
+              <HighlightedProductCard key={product.id} product={product} />
             ))}
           </Carousel>
         </Box>

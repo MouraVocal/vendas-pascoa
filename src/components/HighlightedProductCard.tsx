@@ -140,10 +140,17 @@ export const HighlightedProductCard = ({ product }: HighlightedProductCardProps)
         }}
         maxWidth="xs"
         fullWidth
-        PaperProps={{
-          sx: {
+        sx={{
+          '& .MuiDialog-paper': {
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
             borderRadius: 3,
             p: 2,
+            zIndex: 1500,
+            backgroundColor: 'background.paper',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
           },
         }}
       >
