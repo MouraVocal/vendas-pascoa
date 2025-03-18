@@ -1,4 +1,7 @@
+import { Status } from './status';
+
 export interface Order {
+  statuses?: Status;
   id?: string;
   created_at?: string;
   full_price: number;

@@ -4,7 +4,12 @@ import { Order, OrderProduct } from '../types/orders';
 export const getOrders = async (userId: string) => {
   const { data, error } = await supabase
     .from('orders')
-    .select('*')
+    .select(
+      `
+      *,
+      statuses (status_name)
+    `
+    )
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
 

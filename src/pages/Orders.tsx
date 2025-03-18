@@ -3,6 +3,7 @@ import { Layout } from '../components/layout/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { getOrders } from '../services/orders';
 import { Order } from '../types/orders';
+import { getStatusTranslation } from '../types/status';
 import {
   Container,
   Typography,
@@ -38,12 +39,14 @@ export const Orders = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'pending':
+      case 'created':
+        return 'info';
+      case 'in_preparation':
         return 'warning';
-      case 'completed':
+      case 'waiting_for_retreat':
+        return 'secondary';
+      case 'finished':
         return 'success';
-      case 'cancelled':
-        return 'error';
       default:
         return 'default';
     }
@@ -100,7 +103,9 @@ export const Orders = () => {
                     </TableCell>
                     <TableCell>
                       <Chip
-                        label={order.status}
+                        label={getStatusTranslation(
+                          order.statuses?.status_name || order.status || ''
+                        )}
                         color={getStatusColor(order.status || '')}
                         size="small"
                       />
