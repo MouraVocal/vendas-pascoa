@@ -7,15 +7,23 @@ import {
   IconButton,
   Grid,
   Button,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { Layout } from '../components/layout/Layout';
 import { useCartContext } from '../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { createOrder } from '../services/orders';
+import { useState } from 'react';
 
 export const Cart = () => {
-  const { items, removeItem, updateQuantity, total } = useCartContext();
+  const { items, removeItem, updateQuantity, total, clearCart } = useCartContext();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [orderId, setOrderId] = useState('');
 
   if (items.length === 0) {
     return (
@@ -143,7 +151,38 @@ export const Cart = () => {
                     R$ {total.toFixed(2)}
                   </Typography>
                 </Box>
-                <Button variant="contained" color="primary" fullWidth size="large" sx={{ mt: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  size="large"
+                  sx={{ mt: 2 }}
+                  onClick={async () => {
+                    if (!user) {
+                      navigate('/login');
+                      return;
+                    }
+                    try {
+                      const order = await createOrder(
+                        {
+                          full_price: total,
+                          updated_by: user.id,
+                          user_id: user.id,
+                        },
+                        items.map(item => ({
+                          product_id: item.product.id!,
+                          product_quantity: item.quantity,
+                          order: '',
+                        }))
+                      );
+                      setOrderId(order.id!);
+                      setOpenSnackbar(true);
+                      clearCart();
+                    } catch (error) {
+                      console.error('Error creating order:', error);
+                    }
+                  }}
+                >
                   Finalizar Compra
                 </Button>
                 <Button
@@ -161,6 +200,33 @@ export const Cart = () => {
           </Grid>
         </Grid>
       </Container>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+          Pedido {orderId} criado com sucesso! Você pode acompanhar o status do seu pedido na página
+          de{' '}
+          <Box
+            component="span"
+            sx={{
+              color: 'primary.main',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+            }}
+            onClick={() => {
+              navigate('/meus-pedidos');
+              setOpenSnackbar(false);
+            }}
+          >
+            Meus Pedidos
+          </Box>
+          .
+        </Alert>
+      </Snackbar>
     </Layout>
   );
 };

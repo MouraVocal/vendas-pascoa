@@ -7,6 +7,7 @@ import { Products } from './pages/Products';
 import { RootLayout } from './components/layout/RootLayout';
 import { CartProvider } from './contexts/CartContext';
 import { SignUp } from './pages/SignUp';
+import { Orders } from './pages/Orders';
 
 const router = createBrowserRouter(
   [
@@ -39,6 +40,14 @@ const router = createBrowserRouter(
       element: (
         <RootLayout>
           <SignUp />
+        </RootLayout>
+      ),
+    },
+    {
+      path: '/meus-pedidos',
+      element: (
+        <RootLayout>
+          <Orders />
         </RootLayout>
       ),
     },
