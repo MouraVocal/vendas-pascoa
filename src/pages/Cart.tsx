@@ -18,14 +18,17 @@ import { useCartContext } from '../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { createOrder } from '../services/orders';
+import { supabase } from '../lib/supabase';
 import { useState } from 'react';
 import { getCacheBustedImageUrl } from '../utils/imageCacheBuster';
+import { AuthDialog } from '../components/AuthDialog';
 
 export const Cart = () => {
   const { items, removeItem, updateQuantity, total, clearCart } = useCartContext();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [openSuccessModal, setOpenSuccessModal] = useState(false);
+  const [openAuthDialog, setOpenAuthDialog] = useState(false);
   const [orderSummary, setOrderSummary] = useState<{ id: string; items: typeof items }>({
     id: '',
     items: [],
@@ -173,7 +176,7 @@ export const Cart = () => {
                   sx={{ mt: 2 }}
                   onClick={async () => {
                     if (!user) {
-                      navigate('/login');
+                      setOpenAuthDialog(true);
                       return;
                     }
                     try {
@@ -311,6 +314,35 @@ export const Cart = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <AuthDialog
+        open={openAuthDialog}
+        onClose={() => setOpenAuthDialog(false)}
+        onSuccess={async () => {
+          const {
+            data: { user: currentUser },
+          } = await supabase.auth.getUser();
+          if (!currentUser) {
+            throw new Error('User not found');
+          }
+          const order = await createOrder(
+            {
+              full_price: total,
+              updated_by: currentUser.id,
+              user_id: currentUser.id,
+            },
+            items.map(item => ({
+              product_id: item.product.id!,
+              product_quantity: item.quantity,
+              order: '',
+            }))
+          );
+          setOrderSummary({ id: order.id!, items: [...items] });
+          setOpenSuccessModal(true);
+          setTimeout(() => {
+            navigate('/meus-pedidos');
+          }, 10000);
+        }}
+      />
     </Layout>
   );
 };
