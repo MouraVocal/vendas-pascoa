@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { Product, SiteSettings } from '../types';
 import { getProducts } from '../services/products';
 import { getSiteSettings } from '../services/siteSettings';
+import { supabase } from '../lib/supabase';
 
 type DataContextType = {
   products: Product[];
@@ -72,6 +73,93 @@ export const DataProvider = ({ children }: DataProviderProps) => {
     };
 
     initializeData();
+
+    // Subscribe to products changes
+    const productsSubscription = supabase
+      .channel('products_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'products',
+        },
+        payload => {
+          setProducts(currentProducts => [...currentProducts, payload.new as Product]);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'products',
+        },
+        payload => {
+          setProducts(currentProducts =>
+            currentProducts.map(product =>
+              product.id === payload.new.id ? (payload.new as Product) : product
+            )
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'products',
+        },
+        payload => {
+          setProducts(currentProducts =>
+            currentProducts.filter(product => product.id !== payload.old.id)
+          );
+        }
+      )
+      .subscribe();
+
+    // Subscribe to site settings changes
+    const siteSettingsSubscription = supabase
+      .channel('site_settings_channel')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'site_settings',
+        },
+        async payload => {
+          setSiteSettings(payload.new as SiteSettings);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'site_settings',
+        },
+        async payload => {
+          setSiteSettings(payload.new as SiteSettings);
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'site_settings',
+        },
+        async () => {
+          setSiteSettings(null);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      productsSubscription.unsubscribe();
+      siteSettingsSubscription.unsubscribe();
+    };
   }, []);
 
   return (
