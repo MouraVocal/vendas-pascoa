@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { Product } from '../types';
+import { supabase } from '../lib/supabase';
 
 type CartItem = {
   product: Product;
@@ -39,6 +40,36 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
+
+  useEffect(() => {
+    const productIds = items.map(item => item.product.id);
+    if (productIds.length === 0) return;
+
+    const channel = supabase
+      .channel('cart-product-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'products',
+          filter: `id=in.(${productIds.join(',')})`,
+        },
+        payload => {
+          const updatedProduct = payload.new as Product;
+          setItems(currentItems =>
+            currentItems.map(item =>
+              item.product.id === updatedProduct.id ? { ...item, product: updatedProduct } : item
+            )
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [items.map(item => item.product.id).join(',')]);
 
   const addItem = (product: Product) => {
     setItems(currentItems => {

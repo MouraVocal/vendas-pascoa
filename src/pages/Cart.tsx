@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { createOrder } from '../services/orders';
 import { useState } from 'react';
+import { getCacheBustedImageUrl } from '../utils/imageCacheBuster';
 
 export const Cart = () => {
   const { items, removeItem, updateQuantity, total, clearCart } = useCartContext();
@@ -82,7 +83,7 @@ export const Cart = () => {
               >
                 <Box
                   component="img"
-                  src={product.image_url}
+                  src={getCacheBustedImageUrl(product.image_url)}
                   alt={product.name}
                   sx={{
                     width: { xs: '100%', sm: 100 },
@@ -241,7 +242,7 @@ export const Cart = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <Box
                   component="img"
-                  src={product.image_url}
+                  src={getCacheBustedImageUrl(product.image_url)}
                   alt={product.name}
                   sx={{ width: 50, height: 50, objectFit: 'contain' }}
                 />

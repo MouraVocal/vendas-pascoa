@@ -13,19 +13,46 @@ import {
   Alert,
 } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Product } from '../types';
 import { useCartContext } from '../contexts/CartContext';
+import { supabase } from '../lib/supabase';
+import { getCacheBustedImageUrl } from '../utils/imageCacheBuster';
 
 type HighlightedProductCardProps = {
   product: Product;
 };
 
-export const HighlightedProductCard = ({ product }: HighlightedProductCardProps) => {
+export const HighlightedProductCard = ({
+  product: initialProduct,
+}: HighlightedProductCardProps) => {
   const { addItem } = useCartContext();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [product, setProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('product-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'products',
+          filter: `id=eq.${initialProduct.id}`,
+        },
+        payload => {
+          setProduct(payload.new as Product);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [initialProduct.id]);
 
   const handleQuantityChange = (delta: number) => {
     setQuantity(prev => Math.max(1, prev + delta));
@@ -63,7 +90,7 @@ export const HighlightedProductCard = ({ product }: HighlightedProductCardProps)
             objectFit: 'contain',
             bgcolor: 'background.paper',
           }}
-          image={product.image_url}
+          image={getCacheBustedImageUrl(product.image_url)}
           alt={product.name}
         />
         <CardContent

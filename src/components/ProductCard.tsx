@@ -11,20 +11,45 @@ import {
   Alert,
 } from '@mui/material';
 import { Add as AddIcon, Remove as RemoveIcon } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Product } from '../types';
 import { useCartContext } from '../contexts/CartContext';
+import { getCacheBustedImageUrl } from '../utils/imageCacheBuster';
+import { supabase } from '../lib/supabase';
 
 type ProductCardProps = {
   product: Product;
   maxWidth?: number;
 };
 
-export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
+export const ProductCard = ({ product: initialProduct, maxWidth = 400 }: ProductCardProps) => {
   const { addItem } = useCartContext();
   const [expanded, setExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [product, setProduct] = useState(initialProduct);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('product-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'products',
+          filter: `id=eq.${initialProduct.id}`,
+        },
+        payload => {
+          setProduct(payload.new as Product);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [initialProduct.id]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -72,7 +97,7 @@ export const ProductCard = ({ product, maxWidth = 400 }: ProductCardProps) => {
             objectFit: 'contain',
             objectPosition: 'center',
           }}
-          image={product.image_url}
+          image={getCacheBustedImageUrl(product.image_url)}
           alt={product.name}
         />
         <CardContent sx={{ flexGrow: 1, p: 3 }}>
