@@ -10,9 +10,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['easter-egg.svg', 'background-2.png', 'hero.png'],
       manifest: {
-        name: 'Lojinha de Páscoa',
+        name: 'Lojinha da Cléo',
         short_name: 'Páscoa',
-        description: 'Loja de Páscoa - Encontre os melhores produtos para sua celebração',
+        description: 'Lojinha da Cléo - Encontre os melhores doces',
         theme_color: '#1976d2',
         icons: [
           {

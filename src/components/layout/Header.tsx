@@ -97,7 +97,7 @@ export const Header = () => {
             fontWeight: 700,
           }}
         >
-          Lojinha de Páscoa
+          Lojinha da Cléo
         </Typography>
 
         {!isMobile && (

@@ -1,7 +1,7 @@
 {
-  "name": "Lojinha de Páscoa",
+  "name": "Lojinha da Cléo",
   "short_name": "Páscoa",
-  "description": "Loja de Páscoa - Encontre os melhores produtos para sua celebração",
+  "description": "Lojinha da Cléo - Encontre os melhores doces",
   "start_url": "/vendas-pascoa/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -9,6 +9,14 @@ export interface Order {
   updated_by: string;
   status?: string;
   user_id: string;
+  order_product?: Array<{
+    products?: {
+      id: string;
+      name: string;
+      image_url: string;
+    };
+    product_quantity: number;
+  }>;
 }
 
 export interface OrderProduct {

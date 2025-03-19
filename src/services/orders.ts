@@ -7,7 +7,8 @@ export const getOrders = async (userId: string) => {
     .select(
       `
       *,
-      statuses (status_name)
+      statuses (status_name),
+      order_product (product_quantity, products (id, name, image_url))
     `
     )
     .eq('user_id', userId)
